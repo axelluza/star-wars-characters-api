@@ -1,0 +1,466 @@
+openapi: 3.0.0
+info:
+  title: Star Wars API
+  description: API para gestionar personajes del universo de Star Wars.
+  version: "1.0.0"
+servers:
+  - url: https://jfp1uu7ny1.execute-api.us-east-1.amazonaws.com/dev
+    description: Servidor de desarrollo
+paths:
+  /characters:
+    post:
+      summary: "Crea un nuevo personaje"
+      description: "Este endpoint permite crear un nuevo personaje en la base de datos."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+                  description: "Nombre del personaje"
+                altura:
+                  type: string
+                  description: "Altura del personaje"
+                peso:
+                  type: string
+                  description: "Peso del personaje"
+                color_cabello:
+                  type: string
+                  description: "Color de cabello"
+                color_piel:
+                  type: string
+                  description: "Color de piel"
+                año_nacimiento:
+                  type: string
+                  description: "Año de nacimiento"
+                genero:
+                  type: string
+                  description: "Género"
+                peliculas:
+                  type: array
+                  items:
+                    type: string
+                  description: "Películas en las que aparece el personaje"
+                especies:
+                  type: array
+                  items:
+                    type: string
+                  description: "Especies del personaje"
+                vehiculos:
+                  type: array
+                  items:
+                    type: string
+                  description: "Vehículos asociados"
+                naves_estelares:
+                  type: array
+                  items:
+                    type: string
+                  description: "Naves estelares asociadas"
+                mundo_origen:
+                  type: object
+                  properties:
+                    nombre:
+                      type: string
+                      description: "Nombre del mundo de origen"
+                    clima:
+                      type: string
+                      description: "Clima del mundo de origen"
+                    terreno:
+                      type: string
+                      description: "Terreno del mundo de origen"
+                    poblacion:
+                      type: string
+                      description: "Población del mundo de origen"
+      responses:
+        '201':
+          description: "Personaje creado"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: "Identificador único del personaje"
+                  nombre:
+                    type: string
+                    description: "Nombre del personaje"
+                  altura:
+                    type: string
+                    description: "Altura del personaje"
+                  peso:
+                    type: string
+                    description: "Peso del personaje"
+                  color_cabello:
+                    type: string
+                    description: "Color de cabello"
+                  color_piel:
+                    type: string
+                    description: "Color de piel"
+                  año_nacimiento:
+                    type: string
+                    description: "Año de nacimiento"
+                  genero:
+                    type: string
+                    description: "Género"
+                  mundo_origen:
+                    type: object
+                    properties:
+                      nombre:
+                        type: string
+                        description: "Nombre del mundo de origen"
+                      clima:
+                        type: string
+                        description: "Clima del mundo de origen"
+                      terreno:
+                        type: string
+                        description: "Terreno del mundo de origen"
+                      poblacion:
+                        type: string
+                        description: "Población del mundo de origen"
+                  peliculas:
+                    type: array
+                    items:
+                      type: string
+                    description: "Películas en las que aparece el personaje"
+                  especies:
+                    type: array
+                    items:
+                      type: string
+                    description: "Especies del personaje"
+                  vehiculos:
+                    type: array
+                    items:
+                      type: string
+                    description: "Vehículos asociados"
+                  naves_estelares:
+                    type: array
+                    items:
+                      type: string
+                    description: "Naves estelares asociadas"
+        '500':
+          description: "Error interno del servidor"
+          
+    get:
+      summary: "Obtiene todos los personajes"
+      description: "Este endpoint permite recuperar todos los personajes almacenados en la base de datos."
+      responses:
+        '200':
+          description: "Lista de personajes encontrados"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      description: "Identificador único del personaje"
+                    nombre:
+                      type: string
+                      description: "Nombre del personaje"
+                    altura:
+                      type: string
+                      description: "Altura del personaje"
+                    peso:
+                      type: string
+                      description: "Peso del personaje"
+                    color_cabello:
+                      type: string
+                      description: "Color de cabello"
+                    color_piel:
+                      type: string
+                      description: "Color de piel"
+                    año_nacimiento:
+                      type: string
+                      description: "Año de nacimiento"
+                    genero:
+                      type: string
+                      description: "Género"
+                    mundo_origen:
+                      type: object
+                      properties:
+                        nombre:
+                          type: string
+                          description: "Nombre del mundo de origen"
+                        clima:
+                          type: string
+                          description: "Clima del mundo de origen"
+                        terreno:
+                          type: string
+                          description: "Terreno del mundo de origen"
+                        poblacion:
+                          type: string
+                          description: "Población del mundo de origen"
+                    peliculas:
+                      type: array
+                      items:
+                        type: string
+                      description: "Películas en las que aparece el personaje"
+                    especies:
+                      type: array
+                      items:
+                        type: string
+                      description: "Especies del personaje"
+                    vehiculos:
+                      type: array
+                      items:
+                        type: string
+                      description: "Vehículos asociados"
+                    naves_estelares:
+                      type: array
+                      items:
+                        type: string
+                      description: "Naves estelares asociadas"
+        '500':
+          description: "Error interno del servidor"
+
+  /characters/{id}:
+    get:
+      summary: "Obtiene un personaje por ID"
+      description: "Este endpoint permite obtener un personaje específico de la base de datos por su ID."
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: "ID del personaje"
+      responses:
+        '200':
+          description: "Personaje encontrado"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: "Identificador único del personaje"
+                  nombre:
+                    type: string
+                    description: "Nombre del personaje"
+                  altura:
+                    type: string
+                    description: "Altura del personaje"
+                  peso:
+                    type: string
+                    description: "Peso del personaje"
+                  color_cabello:
+                    type: string
+                    description: "Color de cabello"
+                  color_piel:
+                    type: string
+                    description: "Color de piel"
+                  año_nacimiento:
+                    type: string
+                    description: "Año de nacimiento"
+                  genero:
+                    type: string
+                    description: "Género"
+                  mundo_origen:
+                    type: object
+                    properties:
+                      nombre:
+                        type: string
+                        description: "Nombre del mundo de origen"
+                      clima:
+                        type: string
+                        description: "Clima del mundo de origen"
+                      terreno:
+                        type: string
+                        description: "Terreno del mundo de origen"
+                      poblacion:
+                        type: string
+                        description: "Población del mundo de origen"
+                  peliculas:
+                    type: array
+                    items:
+                      type: string
+                    description: "Películas en las que aparece el personaje"
+                  especies:
+                    type: array
+                    items:
+                      type: string
+                    description: "Especies del personaje"
+                  vehiculos:
+                    type: array
+                    items:
+                      type: string
+                    description: "Vehículos asociados"
+                  naves_estelares:
+                    type: array
+                    items:
+                      type: string
+                    description: "Naves estelares asociadas"
+        '404':
+          description: "Personaje no encontrado"
+        '500':
+          description: "Error interno del servidor"
+
+    put:
+      summary: "Edita un personaje existente"
+      description: "Este endpoint permite editar un personaje en la base de datos."
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: "ID del personaje"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+                  description: "Nombre del personaje"
+                altura:
+                  type: string
+                  description: "Altura del personaje"
+                peso:
+                  type: string
+                  description: "Peso del personaje"
+                color_cabello:
+                  type: string
+                  description: "Color de cabello"
+                color_piel:
+                  type: string
+                  description: "Color de piel"
+                año_nacimiento:
+                  type: string
+                  description: "Año de nacimiento"
+                genero:
+                  type: string
+                  description: "Género"
+                peliculas:
+                  type: array
+                  items:
+                    type: string
+                  description: "Películas en las que aparece el personaje"
+                especies:
+                  type: array
+                  items:
+                    type: string
+                  description: "Especies del personaje"
+                vehiculos:
+                  type: array
+                  items:
+                    type: string
+                  description: "Vehículos asociados"
+                naves_estelares:
+                  type: array
+                  items:
+                    type: string
+                  description: "Naves estelares asociadas"
+                mundo_origen:
+                  type: object
+                  properties:
+                    nombre:
+                      type: string
+                      description: "Nombre del mundo de origen"
+                    clima:
+                      type: string
+                      description: "Clima del mundo de origen"
+                    terreno:
+                      type: string
+                      description: "Terreno del mundo de origen"
+                    poblacion:
+                      type: string
+                      description: "Población del mundo de origen"
+      responses:
+        '200':
+          description: "Personaje actualizado"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: "Identificador único del personaje"
+                  nombre:
+                    type: string
+                    description: "Nombre del personaje"
+                  altura:
+                    type: string
+                    description: "Altura del personaje"
+                  peso:
+                    type: string
+                    description: "Peso del personaje"
+                  color_cabello:
+                    type: string
+                    description: "Color de cabello"
+                  color_piel:
+                    type: string
+                    description: "Color de piel"
+                  año_nacimiento:
+                    type: string
+                    description: "Año de nacimiento"
+                  genero:
+                    type: string
+                    description: "Género"
+                  mundo_origen:
+                    type: object
+                    properties:
+                      nombre:
+                        type: string
+                        description: "Nombre del mundo de origen"
+                      clima:
+                        type: string
+                        description: "Clima del mundo de origen"
+                      terreno:
+                        type: string
+                        description: "Terreno del mundo de origen"
+                      poblacion:
+                        type: string
+                        description: "Población del mundo de origen"
+                  peliculas:
+                    type: array
+                    items:
+                      type: string
+                    description: "Películas en las que aparece el personaje"
+                  especies:
+                    type: array
+                    items:
+                      type: string
+                    description: "Especies del personaje"
+                  vehiculos:
+                    type: array
+                    items:
+                      type: string
+                    description: "Vehículos asociados"
+                  naves_estelares:
+                    type: array
+                    items:
+                      type: string
+                    description: "Naves estelares asociadas"
+        '404':
+          description: "Personaje no encontrado"
+        '500':
+          description: "Error interno del servidor"
+
+    delete:
+      summary: "Elimina un personaje"
+      description: "Este endpoint permite eliminar un personaje de la base de datos."
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: "ID del personaje"
+      responses:
+        '204':
+          description: "Personaje eliminado"
+        '404':
+          description: "Personaje no encontrado"
+        '500':
+          description: "Error interno del servidor"

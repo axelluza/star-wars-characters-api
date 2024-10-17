@@ -1,0 +1,90 @@
+service: starwars-api
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  stage: dev
+  region: us-east-1
+  environment:
+    TABLE_NAME: StarWarsCharactersTable
+  iamRoleStatements: 
+    - Effect: Allow
+      Action:
+        - dynamodb:PutItem
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+        - dynamodb:Query
+      Resource: 
+        - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TABLE_NAME}
+
+plugins:
+  - serverless-offline
+
+functions:
+  createCharacter:
+    handler: handler.createCharacter
+    events:
+      - http:
+          path: characters
+          method: post
+
+  getOrFetchCharacters:
+    handler: handler.getOrFetchCharacters
+    events:
+      - http:
+          path: characters
+          method: get
+          
+  getCharacterById:
+    handler: handler.getCharacterById
+    events:
+      - http:
+          path: characters/{id}
+          method: get
+  
+  editCharacter:
+    handler: handler.editCharacter
+    events:
+      - http:
+          path: characters/{id}
+          method: put
+  
+  deleteCharacter:
+    handler: handler.deleteCharacter
+    events:
+      - http:
+          path: characters/{id}
+          method: delete
+
+  getSwagger:
+    handler: handler.getSwaggerDoc
+    events:
+      - http:
+          path: swagger.yaml
+          method: get
+
+  getSwaggerUI:
+    handler: handler.getSwaggerUI
+    events:
+      - http:
+          path: swagger-ui.html
+          method: get
+
+
+resources:
+  Resources:
+    StarWarsCharactersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.TABLE_NAME}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
